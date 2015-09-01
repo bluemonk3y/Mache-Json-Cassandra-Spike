@@ -7,6 +7,9 @@ import org.apache.jmeter.samplers.SampleResult;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Mongo JMeter read through test.
+ */
 public class MongoReadThrough extends MacheAbstractMongoSamplerClient {
     private static final long serialVersionUID = 3550175542777320608L;
 
@@ -20,7 +23,7 @@ public class MongoReadThrough extends MacheAbstractMongoSamplerClient {
         result.sampleStart();
 
         final long startTime = new Date().getTime();
-        MongoTestEntity readEntity = null;
+        MongoTestEntity readEntity;
         MongoTestEntity e = initMongoEntity(mapParams);
 
         do {
@@ -32,7 +35,8 @@ public class MongoReadThrough extends MacheAbstractMongoSamplerClient {
                 return super.setupResultForError(result, e1);
             }
         }
-        while (new Date().getTime() - startTime <= timeoutMs && (readEntity == null || !e.description.equals(readEntity.description)));
+        while (new Date().getTime() - startTime <= timeoutMs && (readEntity == null
+                || !e.description.equals(readEntity.description)));
 
         result.sampleEnd();
         result.setSuccessful(true);

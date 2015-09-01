@@ -2,8 +2,6 @@ package com.excelian.mache.jmeter.cassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.excelian.mache.core.Mache;
-import com.excelian.mache.events.MQConfiguration;
-import com.excelian.mache.events.MQFactory;
 import com.excelian.mache.events.integration.builder.ActiveMQMessagingProvisioner;
 import com.excelian.mache.jmeter.MacheAbstractJavaSamplerClient;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -11,12 +9,14 @@ import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
-import java.io.IOException;
 import java.util.Map;
 
 import static com.excelian.mache.builder.MacheBuilder.mache;
 import static com.excelian.mache.cassandra.builder.CassandraProvisioner.cassandra;
 
+/**
+ * Cassandra JMeter Test.
+ */
 public class CacheBackedByCassandra extends MacheAbstractJavaSamplerClient {
     Mache<String, CassandraTestEntity> cache;
 
@@ -26,8 +26,6 @@ public class CacheBackedByCassandra extends MacheAbstractJavaSamplerClient {
 
         Map<String, String> mapParams = extractParameters(context);
         String keySpace = mapParams.get("keyspace.name");
-
-        MQConfiguration mqConfiguration = () -> "testTopic";
 
         try {
             cache = mache(String.class, CassandraTestEntity.class)
@@ -67,7 +65,7 @@ public class CacheBackedByCassandra extends MacheAbstractJavaSamplerClient {
 
         Map<String, String> mapParams = extractParameters(context);
         SampleResult result = new SampleResult();
-        boolean success = false;
+        boolean success;
 
         result.sampleStart();
 

@@ -5,6 +5,9 @@ import org.apache.jmeter.samplers.SampleResult;
 
 import java.util.Map;
 
+/**
+ * Mongo JMeter write through test.
+ */
 public class MongoWriteThrough extends MacheAbstractMongoSamplerClient {
     private static final long serialVersionUID = 3550175542777320608L;
 

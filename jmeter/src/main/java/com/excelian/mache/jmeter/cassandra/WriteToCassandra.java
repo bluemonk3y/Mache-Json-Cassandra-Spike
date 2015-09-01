@@ -13,6 +13,9 @@ import java.util.Map;
 import static com.excelian.mache.builder.MacheBuilder.mache;
 import static com.excelian.mache.cassandra.builder.CassandraProvisioner.cassandra;
 
+/**
+ * Cassandra Write JMeter Test.
+ */
 public class WriteToCassandra extends MacheAbstractJavaSamplerClient {
 
     private Mache<String, CassandraTestEntity> mache;
@@ -45,26 +48,27 @@ public class WriteToCassandra extends MacheAbstractJavaSamplerClient {
 
     @Override
     public void teardownTest(JavaSamplerContext context) {
-        if (mache != null) mache.close();
+        if (mache != null) {
+            mache.close();
+        }
     }
 
     @Override
     public SampleResult runTest(JavaSamplerContext context) {
         Map<String, String> mapParams = extractParameters(context);
         SampleResult result = new SampleResult();
-        boolean success = false;
         result.sampleStart();
         try {
-            CassandraTestEntity t1 = new CassandraTestEntity(mapParams.get("entity.key"), mapParams.get("entity.value"));
+            CassandraTestEntity t1 =
+                    new CassandraTestEntity(mapParams.get("entity.key"), mapParams.get("entity.value"));
             mache.put(t1.pkString, t1);
             result.setResponseMessage("Created " + t1.pkString);
-            success = true;
         } catch (Exception e) {
             setupResultForError(result, e);
             return result;
         }
         result.sampleEnd();
-        result.setSuccessful(success);
+        result.setSuccessful(true);
         return result;
     }
 

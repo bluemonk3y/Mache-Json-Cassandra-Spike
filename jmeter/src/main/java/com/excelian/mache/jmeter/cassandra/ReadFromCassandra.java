@@ -13,6 +13,9 @@ import java.util.Map;
 import static com.excelian.mache.builder.MacheBuilder.mache;
 import static com.excelian.mache.cassandra.builder.CassandraProvisioner.cassandra;
 
+/**
+ * Cassandra JMeter Read Test.
+ */
 public class ReadFromCassandra extends MacheAbstractJavaSamplerClient {
 
     private Mache<String, CassandraTestEntity> mache;

@@ -1,11 +1,9 @@
 package com.excelian.mache.jmeter.mongo;
 
-import com.excelian.mache.builder.MacheBuilder;
 import com.excelian.mache.core.Mache;
 import com.excelian.mache.core.SchemaOptions;
 import com.excelian.mache.events.integration.builder.ActiveMQMessagingProvisioner;
 import com.excelian.mache.jmeter.MacheAbstractJavaSamplerClient;
-import com.excelian.mache.mongo.builder.MongoDBProvisioner;
 import com.mongodb.ServerAddress;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.jmeter.config.Arguments;
@@ -16,6 +14,9 @@ import java.util.Map;
 import static com.excelian.mache.builder.MacheBuilder.mache;
 import static com.excelian.mache.mongo.builder.MongoDBProvisioner.mongodb;
 
+/**
+ * Mongo JMeter Sampler.
+ */
 @SuppressWarnings("serial")
 public abstract class MacheAbstractMongoSamplerClient extends
         MacheAbstractJavaSamplerClient {

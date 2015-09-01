@@ -7,6 +7,9 @@ import org.apache.jmeter.samplers.SampleResult;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * JMeter test that stores random values.
+ */
 public class MongoRandomLoad extends MacheAbstractMongoSamplerClient {
     private static final long serialVersionUID = -6670630256079770024L;
     final Random r = new Random();
@@ -29,16 +32,14 @@ public class MongoRandomLoad extends MacheAbstractMongoSamplerClient {
         try {
             Thread.sleep(Long.parseLong(mapParams.get("write.sleepMs")));
         } catch (InterruptedException e1) {
-            getLogger().error("Put value (" + e.description
-                    + ") from Cache - error occured " + e1.getMessage(), e1);
+            getLogger().error("Put value (" + e.description + ") from Cache - error occured " + e1.getMessage(), e1);
 
             return super.setupResultForError(result, e1);
         }
 
         result.sampleEnd();
         result.setSuccessful(true);
-        result.setResponseMessage("Put value (" + e.description
-                + ") from Cache");
+        result.setResponseMessage("Put value (" + e.description + ") from Cache");
 
         return result;
     }

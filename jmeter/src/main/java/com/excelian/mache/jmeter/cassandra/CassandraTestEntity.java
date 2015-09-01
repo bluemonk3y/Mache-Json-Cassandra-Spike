@@ -4,6 +4,9 @@ import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 import org.springframework.data.cassandra.mapping.Table;
 
+/**
+ * Test entity for jmeter test.
+ */
 @Table
 public class CassandraTestEntity {
 
