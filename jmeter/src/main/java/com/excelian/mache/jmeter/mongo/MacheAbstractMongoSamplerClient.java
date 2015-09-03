@@ -56,7 +56,7 @@ public abstract class MacheAbstractMongoSamplerClient extends
     @Override
     public Arguments getDefaultParameters() {
         Arguments defaultParameters = new Arguments();
-        defaultParameters.addArgument("mongo.server.ip.address", "10.28.1.140");
+        defaultParameters.addArgument("mongo.server.ip.address", "10.28.0.111");
         defaultParameters.addArgument("activemq.connection", "vm://localhost");
         defaultParameters.addArgument("entity.key", "K${loopCounter}");
         defaultParameters.addArgument("entity.value", "V${loopCounter}");
@@ -80,11 +80,11 @@ public abstract class MacheAbstractMongoSamplerClient extends
             getMQConfiguration(), new MacheFactory<>(), new UUIDUtils());
         cache1 = cacheFactory1
                 .createCache(new MongoDBCacheLoader<>(
-                        MongoTestEntity.class,
-                        new CopyOnWriteArrayList<>(
-                                Arrays.asList(new ServerAddress(mapParams
-                                        .get("mongo.server.ip.address"), 27017))),
-                        SchemaOptions.CREATEANDDROPSCHEMA, mapParams.get("keyspace.name")));
+                    MongoTestEntity.class,
+                    new CopyOnWriteArrayList<>(
+                        Arrays.asList(new ServerAddress(mapParams
+                            .get("mongo.server.ip.address"), 27017))),
+                    SchemaOptions.CREATEANDDROPSCHEMA, mapParams.get("keyspace.name")));
     }
 
     protected MongoTestEntity initMongoEntity(Map<String, String> mapParams) {

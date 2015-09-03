@@ -42,7 +42,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="mongo.server.ip.address" elementType="Argument">
                   <stringProp name="Argument.name">mongo.server.ip.address</stringProp>
-                  <stringProp name="Argument.value">10.28.1.140</stringProp>
+                  <stringProp name="Argument.value">10.28.0.111</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
                 <elementProp name="activemq.connection" elementType="Argument">
@@ -150,7 +150,7 @@
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="mongo.server.ip.address" elementType="Argument">
                     <stringProp name="Argument.name">mongo.server.ip.address</stringProp>
-                    <stringProp name="Argument.value">10.28.1.140</stringProp>
+                    <stringProp name="Argument.value">10.28.0.111</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
                   <elementProp name="activemq.connection" elementType="Argument">

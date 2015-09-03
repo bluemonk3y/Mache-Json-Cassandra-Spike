@@ -110,7 +110,7 @@ public class CacheBackedByCassandra extends MacheAbstractJavaSamplerClient {
     public Arguments getDefaultParameters() {
         Arguments defaultParameters = new Arguments();
         defaultParameters.addArgument("keyspace.name", "JMeterReadThrough");
-        defaultParameters.addArgument("server.ip.address", "10.28.1.140");
+        defaultParameters.addArgument("server.ip.address", "10.28.0.111");
         defaultParameters.addArgument("cluster.name", "BluePrint");
         defaultParameters.addArgument("activemq.connection", "vm://localhost");
         defaultParameters.addArgument("entity.key", "K${loopCounter}");

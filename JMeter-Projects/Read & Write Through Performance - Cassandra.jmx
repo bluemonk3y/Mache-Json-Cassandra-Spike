@@ -128,7 +128,7 @@
                 </elementProp>
                 <elementProp name="server.ip.address" elementType="Argument">
                   <stringProp name="Argument.name">server.ip.address</stringProp>
-                  <stringProp name="Argument.value">10.28.1.140</stringProp>
+                  <stringProp name="Argument.value">10.28.0.111</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
                 <elementProp name="cluster.name" elementType="Argument">
@@ -193,7 +193,7 @@
                 </elementProp>
                 <elementProp name="server.ip.address" elementType="Argument">
                   <stringProp name="Argument.name">server.ip.address</stringProp>
-                  <stringProp name="Argument.value">10.28.1.140</stringProp>
+                  <stringProp name="Argument.value">10.28.0.111</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
                 <elementProp name="cluster.name" elementType="Argument">
@@ -253,7 +253,7 @@
                 </elementProp>
                 <elementProp name="server.ip.address" elementType="Argument">
                   <stringProp name="Argument.name">server.ip.address</stringProp>
-                  <stringProp name="Argument.value">10.28.1.140</stringProp>
+                  <stringProp name="Argument.value">10.28.0.111</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
                 <elementProp name="cluster.name" elementType="Argument">
@@ -328,7 +328,7 @@
                 </elementProp>
                 <elementProp name="server.ip.address" elementType="Argument">
                   <stringProp name="Argument.name">server.ip.address</stringProp>
-                  <stringProp name="Argument.value">10.28.1.140</stringProp>
+                  <stringProp name="Argument.value">10.28.0.111</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
                 <elementProp name="cluster.name" elementType="Argument">
