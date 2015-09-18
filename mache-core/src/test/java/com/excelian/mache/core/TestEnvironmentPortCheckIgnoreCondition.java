@@ -12,7 +12,7 @@ public abstract class TestEnvironmentPortCheckIgnoreCondition implements Conditi
     private final boolean hostPresent;
 
     public TestEnvironmentPortCheckIgnoreCondition(int port, String testEnvIp) {
-        if (hostIsReachable(testEnvIp)) {
+        if (true) {//hostIsReachable(testEnvIp)) {
             host = testEnvIp;// internal test environment - we don't check port as we'd like to fail if service is down
             hostPresent = true;
         } else if (portAccessible("localhost", port)) {

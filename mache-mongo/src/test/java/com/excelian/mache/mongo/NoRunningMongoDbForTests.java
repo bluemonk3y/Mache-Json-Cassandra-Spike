@@ -4,7 +4,7 @@ import com.excelian.mache.core.TestEnvironmentPortCheckIgnoreCondition;
 
 public class NoRunningMongoDbForTests extends TestEnvironmentPortCheckIgnoreCondition {
     public NoRunningMongoDbForTests() {
-        super(27017, "10.28.1.140");
+        super(27017, "192.168.1.10");
     }
 }
 

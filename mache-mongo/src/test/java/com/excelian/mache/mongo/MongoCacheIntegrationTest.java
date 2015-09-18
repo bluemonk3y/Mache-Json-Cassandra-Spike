@@ -23,11 +23,11 @@ import static com.excelian.mache.mongo.builder.MongoDBProvisioner.mongodb;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@IgnoreIf(condition = NoRunningMongoDbForTests.class)
+//@IgnoreIf(condition = NoRunningMongoDbForTests.class)
 public class MongoCacheIntegrationTest {
 
-    @Rule
-    public final ConditionalIgnoreRule rule = new ConditionalIgnoreRule();
+//    @Rule
+//    public final ConditionalIgnoreRule rule = new ConditionalIgnoreRule();
 
 
     private String keySpace = "NoSQL_Nearside_Test_" + new Date().toString();

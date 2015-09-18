@@ -11,11 +11,11 @@ import java.io.IOException;
 import static com.codeaffine.test.ConditionalIgnoreRule.IgnoreIf;
 import static com.excelian.mache.events.integration.KafkaMqConfig.KafkaMqConfigBuilder.builder;
 
-@IgnoreIf(condition = NoRunningKafkaForTests.class)
+//@IgnoreIf(condition = NoRunningKafkaForTests.class)
 public class KafkaEventingTest extends TestEventingBase {
 
-    @Rule
-    public final ConditionalIgnoreRule rule = new ConditionalIgnoreRule();
+//    @Rule
+//    public final ConditionalIgnoreRule rule = new ConditionalIgnoreRule();
 
     @Override
     protected MQFactory<String> buildMQFactory() throws JMSException, IOException {
