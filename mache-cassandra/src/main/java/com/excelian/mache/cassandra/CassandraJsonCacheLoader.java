@@ -1,106 +1,68 @@
 package com.excelian.mache.cassandra;
 
 import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.excelian.mache.core.AbstractCacheLoader;
 import com.excelian.mache.core.SchemaOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cassandra.core.ConsistencyLevel;
-import org.springframework.cassandra.core.RetryPolicy;
-import org.springframework.cassandra.core.WriteOptions;
-import org.springframework.data.cassandra.convert.MappingCassandraConverter;
-import org.springframework.data.cassandra.core.CassandraAdminTemplate;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 
 /**
  * CacheLoader to bind Cassandra API onto the GuavaCache
  *
- * @param <K> Cache key type.
- * @param <V> Cache value type.
  */
-public class CassandraCacheLoader<K, V> extends AbstractCacheLoader<K, V, Session> {
+public class CassandraJsonCacheLoader<K, V> extends AbstractCacheLoader<String, String, Session> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CassandraCacheLoader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CassandraJsonCacheLoader.class);
     private static final String CREATE_KEYPSACE = "CREATE KEYSPACE IF NOT EXISTS %s  "
             + "WITH REPLICATION = {'class':'%s', 'replication_factor':%d}; ";
 
-    private final Class<K> keyType;
-    private final Class<V> valueType;
     private final Cluster cluster;
     private final SchemaOptions schemaOption;
     private final String replicationClass;
     private final int replicationFactor;
     private final String keySpace;
     private Session session;
-    private boolean isTableCreated = false;
 
     /**
-     * @param keyType           The class type of the cache key.
-     * @param valueType         The class type of the cache value.
      * @param cluster           The Cassandra cluster object that defines cluster parameters.
      * @param schemaOption      Determine whether to create/drop key space.
      * @param keySpace          The name of the key space to use.
      * @param replicationClass  The type of replication strategy to use for the key space.
      * @param replicationFactor The replication factor for the keyspace.
      */
-    public CassandraCacheLoader(Class<K> keyType, Class<V> valueType, Cluster cluster, SchemaOptions schemaOption,
-                                String keySpace, String replicationClass, int replicationFactor) {
-        this.keyType = keyType;
+    public CassandraJsonCacheLoader(Cluster cluster, SchemaOptions schemaOption,
+                                    String keySpace, String replicationClass, int replicationFactor) {
         this.cluster = cluster;
         this.schemaOption = schemaOption;
         this.replicationClass = replicationClass;
         this.replicationFactor = replicationFactor;
         this.keySpace = keySpace.replace("-", "_").replace(" ", "_").replace(":", "_");
-        this.valueType = valueType;
     }
 
     @Override
     public void create() {
-        if (schemaOption.shouldCreateSchema() && session == null) {
-            synchronized (this) {
-                if (session == null) {
-                    session = cluster.connect();
-                    if (schemaOption.shouldCreateSchema()) {
-                        createKeySpace();
-                    }
-                    createTable();
-                }
-            }
-        } else {
-            session = cluster.connect(keySpace);
-        }
+        session = cluster.connect(keySpace);
     }
 
-    private void createKeySpace() {
-        session.execute(String.format(CREATE_KEYPSACE, keySpace, replicationClass, replicationFactor));
-        session.execute(String.format("USE %s", keySpace));
-        LOG.info("Created keyspace if missing {}", keySpace);
+    public void put(String key, String value) {
+        String table = key.substring(0, key.indexOf("."));
+        session.execute(String.format("INSERT INTO %s JSON '%s'", table, value));
     }
 
-    private void createTable() {
-        if (!isTableCreated) {
-            CassandraAdminTemplate adminTemplate = new CassandraAdminTemplate(session, new MappingCassandraConverter());
-            adminTemplate.createTable(true, null, valueType, null);
-            isTableCreated = true;
-        }
+    public void remove(String key) {
+        String[] tableKey = key.split("\\.");
+        session.execute(String.format("DELETE from %s WHERE id = '%s';", tableKey[0], tableKey[1]));
     }
 
-    public void put(K key, V value) {
-        ops().insert(value, new WriteOptions(ConsistencyLevel.LOCAL_QUOROM, RetryPolicy.DEFAULT));
-    }
-
-    public void remove(K key) {
-        ops().deleteById(valueType, key);
-    }
-
-    @Override
-    public V load(K key) throws Exception {
-        V value = ops().selectOneById(valueType, key);
-        LOG.trace("Loaded value from DB : {}", key);
-        return value;
+    public String load(String key) throws Exception {
+        String[] tableKey = key.split("\\.");
+        ResultSet execute = session.execute(String.format("SELECT JSON * from %s WHERE id = '%s';", tableKey[0], tableKey[1]));
+        return  execute.one().getString(0);
     }
 
     @Override
@@ -115,15 +77,13 @@ public class CassandraCacheLoader<K, V> extends AbstractCacheLoader<K, V, Sessio
                 }
             }
             session.close();
-
-            // TODO: This is a hack to release resources from the cluster....NGA
             cluster.close();
         }
     }
 
     @Override
     public String getName() {
-        return valueType.getSimpleName();
+        return "Json";
     }
 
     @Override
@@ -140,16 +100,13 @@ public class CassandraCacheLoader<K, V> extends AbstractCacheLoader<K, V, Sessio
 
     @Override
     public String toString() {
-        return "CassandraCacheLoader{"
+        return this.getClass().getSimpleName() + "{"
                 + "cluster=" + cluster
                 + ", schemaOption=" + schemaOption
                 + ", replicationClass='" + replicationClass + '\''
                 + ", replicationFactor=" + replicationFactor
                 + ", keySpace='" + keySpace + '\''
                 + ", session=" + session
-                + ", isTableCreated=" + isTableCreated
-                + ", keyType=" + keyType
-                + ", valueType=" + valueType
                 + '}';
     }
 }

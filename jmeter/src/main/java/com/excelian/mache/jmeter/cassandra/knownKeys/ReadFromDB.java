@@ -24,12 +24,12 @@ public class ReadFromDB extends AbstractCassandraSamplerClient {
 		final Map<String, String> mapParams = extractParameters(context);
 
 		try {
-			db = cassandra()
-					.withCluster(Cluster.builder().withClusterName("BluePrint")
-							.addContactPoint(mapParams.get("cassandra.server.ip.address")).withPort(9042).build())
-					.withKeyspace(mapParams.get("keyspace.name"))
-					.withSchemaOptions(SchemaOptions.CREATE_SCHEMA_IF_NEEDED).build()
-					.getCacheLoader(String.class, CassandraTestEntity.class);
+			db = null;//cassandra()
+//					.withCluster(Cluster.builder().withClusterName("BluePrint")
+//							.addContactPoint(mapParams.get("cassandra.server.ip.address")).withPort(9042).build())
+//					.withKeyspace(mapParams.get("keyspace.name"))
+//					.withSchemaOptions(SchemaOptions.CREATE_SCHEMA_IF_NEEDED).build()
+//					.getCacheLoader(String.class, CassandraTestEntity.class);
 
 			db.create();// ensure we are connected and schema exists
 		} catch (Exception e) {
