@@ -13,7 +13,7 @@ import org.springframework.data.cassandra.core.CassandraTemplate;
 
 /**
  * CacheLoader to bind Cassandra API onto the GuavaCache
- * 
+ *
  * TODO: Issues @bluemonk3y
  * 1. Table name is assumed to be part of the key - this isnt great because it assumes the entity relationship.
  * 2. IDField - is current hardcoded to 'id' - see
@@ -70,7 +70,7 @@ public class CassandraJsonCacheLoader<K, V> extends AbstractCacheLoader<String, 
 
     public String load(String key) throws Exception {
         String[] tableKey = key.split("\\.");
-        ResultSet execute = session.execute(String.format("SELECT JSON * from %s WHERE '%s' = '%s';", ID_FIELD, tableKey[0], tableKey[1]));
+        ResultSet execute = session.execute(String.format("SELECT JSON * from %s WHERE %s = '%s';",  tableKey[0], ID_FIELD, tableKey[1]));
         return  execute.one().getString(0);
     }
 
