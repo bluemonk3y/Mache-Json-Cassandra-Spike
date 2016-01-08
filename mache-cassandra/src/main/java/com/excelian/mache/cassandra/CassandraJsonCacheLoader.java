@@ -13,6 +13,12 @@ import org.springframework.data.cassandra.core.CassandraTemplate;
 
 /**
  * CacheLoader to bind Cassandra API onto the GuavaCache
+ * 
+ * TODO: Issues @bluemonk3y
+ * 1. Table name is assumed to be part of the key - this isnt great because it assumes the entity relationship.
+ * 2. IDField - is current hardcoded to 'id' - see
+ *
+ * FIX: Use Configurator/Builder to inject it and make work properly
  *
  */
 public class CassandraJsonCacheLoader<K, V> extends AbstractCacheLoader<String, String, Session> {
@@ -20,6 +26,9 @@ public class CassandraJsonCacheLoader<K, V> extends AbstractCacheLoader<String, 
     private static final Logger LOG = LoggerFactory.getLogger(CassandraJsonCacheLoader.class);
     private static final String CREATE_KEYPSACE = "CREATE KEYSPACE IF NOT EXISTS %s  "
             + "WITH REPLICATION = {'class':'%s', 'replication_factor':%d}; ";
+
+    // TODO - remove this an inject using configurator
+    private static final String ID_FIELD = "id";
 
     private final Cluster cluster;
     private final SchemaOptions schemaOption;
@@ -61,7 +70,7 @@ public class CassandraJsonCacheLoader<K, V> extends AbstractCacheLoader<String, 
 
     public String load(String key) throws Exception {
         String[] tableKey = key.split("\\.");
-        ResultSet execute = session.execute(String.format("SELECT JSON * from %s WHERE id = '%s';", tableKey[0], tableKey[1]));
+        ResultSet execute = session.execute(String.format("SELECT JSON * from %s WHERE '%s' = '%s';", ID_FIELD, tableKey[0], tableKey[1]));
         return  execute.one().getString(0);
     }
 
